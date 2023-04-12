@@ -1,0 +1,114 @@
+:source-highlighter: rouge
+:toc: left
+
+= Jetty Download Maven Plugin
+
+This is http://www.jarmoniuk.nl/jetty-download/[jetty-download-maven-plugin], a simple Maven plugin for downloading resources, using https://www.eclipse.org/jetty/[Eclipse Jetty].
+
+image:https://img.shields.io/github/license/mojohaus/versions-maven-plugin.svg?label=License[Apache License, Version 2.0, January 2004,link=https://www.apache.org/licenses/LICENSE-2.0]
+image:https://img.shields.io/maven-central/v/nl.jarmoniuk/jetty-download-maven-plugin.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/artifact/nl.jarmoniuk/jetty-download-maven-plugin]
+image:https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml/badge.svg[Build Status,link=https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml]
+
+== _What_ and _why_
+
+In contradiction to other avaialable Maven plugins for downloading resources, this one uses https://www.eclipse.org/jetty/[Eclipse Jetty] version @jettyVersion@, and tries to do only one thing.
+
+A big part of the _why_ is -- because it's _fun!_ That's also why this plugin, whilst working with Java 8 and Maven, is written using Scala 3 (Dotty). Despite the ludic component to it, the main goal is to offer solid functionality with the Unix philosophy of doing just one thing -- but doing it well.
+
+== Similar plugins
+
+Probably the most widely known similar plugin is the https://github.com/maven-download-plugin/maven-download-plugin[download-maven-plugin]. It is based on https://hc.apache.org/httpcomponents-client-5.2.x/[Apache HttpClient] and offers e.g. checksum checking, unarchiving, caching, and many more features.
+
+== Maintained versions
+
+Jetty Download Maven Plugin requires Maven 3.3.9+ and Java 8+
+
+However, we maintain the latest Plugin version with the latest Maven.
+
+We execute tests against different operating systems and JDKs
+by https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml[GitHub Actions]
+
+== Quick start
+
+The plugin should be available in Central maven repository.
+
+The plugin only offers one goal, `download`, which should download the given resource to the given file location. In order to use the plugin from pom.xml, an example `build` usage would look like this:
+
+[source,xml]
+----
+<plugins>
+  <plugin>
+    <groupId>@groupId@</groupId>
+    <artifactId>@artifactId@</artifactId>
+    <version>@version@</version>
+    <executions>
+      <execution>
+        <id>download-file</id>
+        <configuration>
+          <uri>https://speed.hetzner.de/1GB.bin</uri>
+          <outputFile>test.bin</outputFile>
+        </configuration>
+      </execution>
+    </executions>
+  </plugin>
+</plugins>
+----
+
+Please consult the goal usage to see the full list of configuration options.
+
+== API documentation
+
+Scaladoc sources can be found link:javadoc/index.html[here].
+
+== Source code management
+
+The project is hosted on https://github.com/ajarmoniuk/jetty-download-maven-plugin[GitHub].
+
+== Goals
+
+Currently the only goal the plugin offers is `download`.
+
+=== download
+
+[%noheader,cols="25,~",stripes=even]
+|===
+|Full name    |`@groupId@:@artifactId@:@version@:download`
+|Description  |Downloads the requested resource.
+.2+|Attributes
+|Requires a Maven project to be executed.
+|The goal is thread-safe and supports parallel builds.
+|===
+
+[%autowidth,stripes=even]
+.Required parameters
+|===
+|Name        |Type   |Since    |Description
+
+|uri         |URI    |0.1.0    |URI of the resource do download.
+|outputFile  |File   |0.1.0    |File to which the downloaded contents should be written. The file will only be written to if the download operation succeeds. If the given file already exists, its contents will be replaced.
+|===
+
+[%autowidth,stripes=even]
+.Optional parameters
+|===
+|Name        |Type    |Since    |Default         |Description
+
+|realm       |String  |0.1.0    |_\<<ANY_REALM>>_|Authentication realm. If this is not provided, _\<<ANY_REALM>>_ will be applied.
+|username    |String  |0.1.0    |                |Username for basic authentication.
+|password    |String  |0.1.0    |                |Password for basic authentication.
+|preemptive  |boolean |0.1.0    |_false_         |Whether to use pre-emptive authentication. Default is _false_. Has no meaning if no authentication is used.
+|proxyUri    |URI     |0.1.0    |                |Proxy uri, consisting of scheme, host name, and port, e.g. _\https://proxy:8445_.
+|proxyRealm       |String  |0.1.0    |_\<<ANY_REALM>>_|Realm for basic proxy authentication. If this is not provided, _\<<ANY_REALM>>_ will be applied.
+|proxyUsername    |String  |0.1.0    ||Username for basic proxy authentication.
+|proxyPassword    |String  |0.1.0    ||Password for basic proxy authentication.
+|proxyPreemptive  |boolean |0.1.0    |_false_|Whether to use pre-emptive proxy authentication. Default is _false_. Has no meaning if no authentication is used for proxy or no proxy is used.
+|trustAll         |boolean |0.1.0    |_false_|Whether to trust all certificates if there is no keystore or truststore. Default is _false_.
+|validateHostName |boolean |0.1.0    |_true_|Whether host name should be checked against CN of the certificate. Default is _true_.
+|validateCerts    |boolean |0.1.0    |_true_|Whether certificates should be validated. Default is _true_.
+|validatePeerCerts|boolean |0.1.0    |_true_|Whether peer certificates should be validated. Default is _true_.
+|keyStorePath     |String  |0.1.0    ||Path or URI of the keystore.
+|keyStorePassword |String  |0.1.0    ||Keystore password.
+|trustStorePath     |String  |0.1.0    ||Path or URI of the truststore.
+|trustStorePassword |String  |0.1.0    ||Truststore password.
+|certAlias          |String  |0.1.0    ||Default certificate alias.
+|===

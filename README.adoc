@@ -1,0 +1,60 @@
+
+= Jetty Download Maven Plugin
+
+This is http://www.jarmoniuk.nl/jetty-download/[jetty-download-maven-plugin].
+
+image:https://img.shields.io/github/license/mojohaus/versions-maven-plugin.svg?label=License[Apache License, Version 2.0, January 2004,link=https://www.apache.org/licenses/LICENSE-2.0]
+image:https://img.shields.io/maven-central/v/nl.jarmoniuk/jetty-download-maven-plugin.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/artifact/nl.jarmoniuk/jetty-download-maven-plugin]
+image:https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml/badge.svg[Build Status,link=https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml]
+
+
+== _What_ and _why_
+
+In contradiction to other avaialable Maven plugins for downloading resources, this one uses https://www.eclipse.org/jetty/[Eclipse Jetty] version @jettyVersion@, and tries to do only one thing.
+
+A big part of the _why_ is -- because it's _fun!_ That's also why this plugin, whilst working with Java 8 and Maven, is written using Scala 3 (Dotty). Despite the ludic component to it, the main goal is to offer solid functionality with the Unix philosophy of doing just one thing -- but doing it well.
+
+== Similar plugins
+
+Probably the most widely known similar plugin is the https://github.com/maven-download-plugin/maven-download-plugin[download-maven-plugin]. It is based on https://hc.apache.org/httpcomponents-client-5.2.x/[Apache HttpClient] and offers e.g. checksum checking, unarchiving, caching, and many more.
+
+
+== Maintained versions
+
+Jetty Download Maven Plugin requires Maven 3.3.9+ and Java 8+
+
+However, we maintain the latest Plugin version with the latest Maven.
+
+We execute tests against different operating systems and JDKs
+by https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml[GitHub Actions]
+
+== Quick start
+
+The plugin should be available in Central maven repository.
+
+The plugin only offers one goal, `download`, which should download the given resource to the given file location. In order to use the plugin from pom.xml, an example `build` usage would look like this:
+
+[source,xml]
+----
+<plugins>
+  <plugin>
+    <groupId>nl.jarmoniuk</groupId>
+    <artifactId>jetty-download-maven-plugin</artifactId>
+    <version>1.0.0</version>
+    <executions>
+      <execution>
+        <id>download-file</id>
+        <configuration>
+          <uri>https://speed.hetzner.de/1GB.bin</uri>
+          <outputFile>test.bin</outputFile>
+        </configuration>
+      </execution>
+    </executions>
+  </plugin>
+</plugins>
+----
+
+Please consult the goal usage to see the full list of configuration options.
+
+
+

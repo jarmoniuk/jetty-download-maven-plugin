@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <name>Jetty Download Maven Plugin</name>
+  <description>Simple download plugin based on Eclipse Jetty.</description>
+  <groupId>nl.jarmoniuk</groupId>
+  <artifactId>jetty-download-maven-plugin</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <goalPrefix>jetty-download</goalPrefix>
+  <isolatedRealm>false</isolatedRealm>
+  <inheritedByDefault>true</inheritedByDefault>
+  <requiredJavaVersion>1.8</requiredJavaVersion>
+  <requiredMavenVersion>3.3.9</requiredMavenVersion>
+  <mojos>
+    <mojo>
+      <goal>download</goal>
+      <description>Downloads the requested resource.</description>
+      <requiresDirectInvocation>false</requiresDirectInvocation>
+      <requiresProject>true</requiresProject>
+      <requiresReports>false</requiresReports>
+      <aggregator>false</aggregator>
+      <requiresOnline>false</requiresOnline>
+      <inheritedByDefault>true</inheritedByDefault>
+      <phase>process-resources</phase>
+      <implementation>nl.jarmoniuk.download.DownloadMojo</implementation>
+      <language>java</language>
+      <instantiationStrategy>per-lookup</instantiationStrategy>
+      <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>true</threadSafe>
+      <parameters>
+        <parameter>
+          <name>uri</name>
+          <alias>uri</alias>
+          <type>java.net.URI</type>
+          <required>true</required>
+          <editable>true</editable>
+          <description>URI of the resource do download.</description>
+        </parameter>
+        <parameter>
+          <name>outputFile</name>
+          <type>java.io.File</type>
+          <required>true</required>
+          <editable>true</editable>
+          <description>
+            File to which the downloaded contents should be written. The file will only be written to
+            if the download operation succeeds. If the given file already exists, its contents will be replaced.
+          </description>
+        </parameter>
+        <parameter>
+          <name>realm</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Authentication realm (optional). If this is not provided, &lt;&lt;ANY_REALM&gt;&gt;
+            will be applied.
+          </description>
+        </parameter>
+        <parameter>
+          <name>username</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Username for basic authentication (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>password</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Password for basic authentication (optional)</description>
+        </parameter>
+        <parameter>
+          <name>preemptive</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Whether to use pre-emptive authentication. Has no meaning if no authentication is used (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>proxyUri</name>
+          <type>java.net.URI</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Proxy uri, consisting of scheme, host name, and port, e.g. `https://proxy:8445` (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>proxyRealm</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Realm for basic proxy authentication (optional). If this is not provided, &lt;&lt;ANY_REALM&gt;&gt;
+            will not be applied.
+          </description>
+        </parameter>
+        <parameter>
+          <name>proxyUsername</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Username for basic proxy authentication (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>proxyPassword</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Password for basic proxy authentication (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>proxyPreemptive</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Whether to use pre-emptive authentication for authenticating with the proxy server (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>trustAll</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Whether to trust all certificates if there is no keystore or truststore (default is false).
+          </description>
+        </parameter>
+        <parameter>
+          <name>validateHostName</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Whether host name should be checked against CN of the certificate (default is true).
+          </description>
+        </parameter>
+        <parameter>
+          <name>validateCerts</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Whether certificates should be validated (default is true).
+          </description>
+        </parameter>
+        <parameter>
+          <name>validatePeerCerts</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Whether peer certificates should be validated (default is true).
+          </description>
+        </parameter>
+        <parameter>
+          <name>keyStorePath</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Path or URI of the keystore (optional)</description>
+        </parameter>
+        <parameter>
+          <name>keyStorePassword</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Keystore password (optional)</description>
+        </parameter>
+        <parameter>
+          <name>trustStorePath</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Path or URI of the truststore (optional).
+          </description>
+        </parameter>
+        <parameter>
+          <name>trustStorePassword</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Truststore password (optional)
+          </description>
+        </parameter>
+        <parameter>
+          <name>certAlias</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>
+            Default certificate alias (optional)
+          </description>
+        </parameter>
+      </parameters>
+      <configuration>
+        <certAlias implementation="java.lang.String">${certAlias}</certAlias>
+        <keyStorePassword implementation="java.lang.String">${keyStorePassword}</keyStorePassword>
+        <keyStorePath implementation="java.lang.String">${keyStorePath}</keyStorePath>
+        <outputFile implementation="java.io.File">${outputFile}</outputFile>
+        <password implementation="java.lang.String">${password}</password>
+        <preemptive implementation="boolean" default-value="false">${preemptive}</preemptive>
+        <proxyPassword implementation="java.lang.String">${proxyPassword}</proxyPassword>
+        <proxyPreemptive implementation="boolean" default-value="false">${proxyPreemptive}</proxyPreemptive>
+        <proxyRealm implementation="java.lang.String">${proxyRealm}</proxyRealm>
+        <proxyUri implementation="java.net.URI">${proxyUri}</proxyUri>
+        <proxyUsername implementation="java.lang.String">${proxyUsername}</proxyUsername>
+        <realm implementation="java.lang.String">${realm}</realm>
+        <trustAll implementation="boolean">${trustAll}</trustAll>
+        <trustStorePassword implementation="java.lang.String">${trustStorePath}</trustStorePassword>
+        <trustStorePath implementation="java.lang.String">${trustStorePath}</trustStorePath>
+        <uri implementation="java.net.URI">${uri}</uri>
+        <username implementation="java.lang.String">${username}</username>
+        <validateCerts implementation="boolean" default-value="true">${validateCerts}</validateCerts>
+        <validateHostName implementation="boolean" default-value="true">${validateHostName}</validateHostName>
+        <validatePeerCerts implementation="boolean" default-value="true">${validatePeerCerts}</validatePeerCerts>
+      </configuration>
+    </mojo>
+  </mojos>
+  <dependencies>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala3-library_3</artifactId>
+      <type>jar</type>
+      <version>3.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <type>jar</type>
+      <version>2.13.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-client</artifactId>
+      <type>jar</type>
+      <version>9.4.51.v20230217</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http</artifactId>
+      <type>jar</type>
+      <version>9.4.51.v20230217</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-io</artifactId>
+      <type>jar</type>
+      <version>9.4.51.v20230217</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-util</artifactId>
+      <type>jar</type>
+      <version>9.4.51.v20230217</version>
+    </dependency>
+  </dependencies>
+</plugin>
