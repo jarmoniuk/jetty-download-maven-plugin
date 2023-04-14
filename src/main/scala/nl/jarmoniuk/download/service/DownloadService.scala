@@ -109,9 +109,8 @@ object DownloadService:
     given Releasable[HttpClient] = client => if client.isStarted then client.stop()
     given Releasable[Path] = path =>
       if response.future.value.get.get.getStatus == HttpStatus.OK_200 then
-        Files.move(path, outputPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
-      else
-        Files.deleteIfExists(path)
+        Files.copy(path, outputPath, StandardCopyOption.REPLACE_EXISTING)
+      Files.deleteIfExists(path)
 
     Using.Manager { use =>
       try
