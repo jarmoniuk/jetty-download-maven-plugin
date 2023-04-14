@@ -21,12 +21,9 @@ Probably the most widely known similar plugin is the https://github.com/maven-do
 
 == Maintained versions
 
-Jetty Download Maven Plugin requires Maven 3.3.9+ and Java 8+
+Jetty Download Maven Plugin [.underline]#requires Maven 3.3.9+ and Java 8+#. However, we maintain the latest Plugin version with the latest Maven.
 
-However, we maintain the latest Plugin version with the latest Maven.
-
-We execute tests against different operating systems and JDKs
-by https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml[GitHub Actions]
+Plugin is tested with Java 8, 11, and 17 running on Ubuntu, Windows, and MacOS using https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflows/scala.yml[GitHub Actions]
 
 == Quick start
 
