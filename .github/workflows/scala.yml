@@ -27,6 +27,8 @@ jobs:
         with:
           distribution: ${{ matrix.jdk }}
           java-version: ${{ matrix.java }}
-          cache: 'sbt'
+          cache: 'maven'
       - name: Run tests
-        run: sbt test
+        run: sbt test publishM2
+      - name: Maven integration tests
+        run: sbt mavenTests

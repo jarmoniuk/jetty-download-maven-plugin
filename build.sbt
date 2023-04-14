@@ -86,13 +86,7 @@ lazy val root = project in file(".") settings (
 )
 
 lazy val mavenTests = taskKey[Unit]("Execute integration tests using Maven")
-Test / mavenTests := {
-  import scala.sys.process._
-
-  lazy val s: TaskStreams = streams.value
-  val cmd = "mvn -P run-its verify -f it/pom.xml -DpluginGroupId=%s -DpluginArtifactId=%s -DpluginVersion=%s"
-    .format((root / organization value), (root / normalizedName value), (root / version value))
-  if ((cmd !) != 0) {
-    throw new IllegalStateException("Maven integration tests failed")
-  }
-}
+Test / mavenTests := Resolvers.run("mvn", "verify", "-f", "it/pom.xml",
+    "-DpluginGroupId=" + (root / organization value),
+    "-DpluginArtifactId=" + (root / normalizedName value),
+    "-DpluginVersion=" + (root / version value))
