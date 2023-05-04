@@ -1,9 +1,8 @@
 package nl.jarmoniuk.download.service
 
-import nl.jarmoniuk.download.DownloadServiceTestBase
 import nl.jarmoniuk.download.authentication.BasicAuthProxyAuthenticator
 import nl.jarmoniuk.download.service.DownloadServiceTestBase.helloWorldHandler
-import nl.jarmoniuk.download.service.{AuthOptions, DownloadOptions, DownloadService, ProxyOptions}
+import nl.jarmoniuk.download.service.{DownloadServiceTestBase, AuthOptions, DownloadOptions, DownloadService, ProxyOptions}
 import nl.jarmoniuk.download.util.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}
 import org.eclipse.jetty.client.api.Authentication

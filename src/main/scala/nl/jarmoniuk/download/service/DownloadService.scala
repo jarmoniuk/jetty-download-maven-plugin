@@ -155,7 +155,6 @@ object DownloadService:
             if !result.isFailed then response.success(result.getResponse)
             else response.failure(result.getFailure))
         Await.result(response.future, Duration.Inf)
-
         val responseVal = response.future.value.get.get
         if responseVal.getStatus == HttpStatus.OK_200 then
           log info ("Downloaded %d bytes." format progressTracker.getBytesDownloaded)

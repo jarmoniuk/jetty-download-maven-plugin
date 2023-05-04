@@ -28,6 +28,7 @@ ThisBuild / publishTo := {
   if (isSnapshot.value) Some("snapshots" at nexus + "/content/repositories/snapshots")
   else Some("releases" at nexus + "/service/local/staging/deploy/maven2")
 }
+
 ThisBuild / crossPaths := false
 ThisBuild / pomPostProcess := {
   import scala.xml.{Node, NodeSeq, *}
@@ -84,6 +85,8 @@ lazy val root = project in file(".") settings (
     "org.scalatest" %% "scalatest" % "3.2.15" % Test,
   )
 )
+
+javaOptions in testOnly += "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
 
 lazy val mavenTests = taskKey[Unit]("Execute integration tests using Maven")
 Test / mavenTests := Resolvers.run("mvn", "verify", "-f", "it/pom.xml",

@@ -1,0 +1,18 @@
+*.class
+*.log
+*.tasty
+*.semanticdb
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+**/metals.sbt
+
+**/.bloop/*
+**/.bsp/*
+**/.metals/*
+**/.vscode/*
+**/target/
+**/lib/*.jar
+it/~/.m2/**
+.DS_Store
+test.bin

@@ -1,15 +1,23 @@
 package nl.jarmoniuk.download
 
 import nl.jarmoniuk.download.DownloadMojo.basicAuthenticationFor
-import nl.jarmoniuk.download.service.{AuthOptions, DownloadOptions, DownloadService, ProxyOptions}
+import nl.jarmoniuk.download.service.AuthOptions
+import nl.jarmoniuk.download.service.DownloadOptions
+import nl.jarmoniuk.download.service.DownloadService
+import nl.jarmoniuk.download.service.ProxyOptions
+import org.apache.maven.plugin.AbstractMojo
+import org.apache.maven.plugin.MojoExecutionException
+import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugin.logging.Log
-import org.apache.maven.plugin.{AbstractMojo, MojoExecutionException, MojoFailureException}
 import org.apache.maven.plugins.annotations.LifecyclePhase.PROCESS_RESOURCES
-import org.apache.maven.plugins.annotations.{Mojo, Parameter}
-import org.eclipse.jetty.client.api.{ContentResponse, Response}
+import org.apache.maven.plugins.annotations.Mojo
+import org.apache.maven.plugins.annotations.Parameter
+import org.eclipse.jetty.client.HttpClient
+import org.eclipse.jetty.client.HttpResponse
 import org.eclipse.jetty.client.api.Authentication.ANY_REALM
+import org.eclipse.jetty.client.api.ContentResponse
+import org.eclipse.jetty.client.api.Response
 import org.eclipse.jetty.client.util.BasicAuthentication
-import org.eclipse.jetty.client.{HttpClient, HttpResponse}
 import org.eclipse.jetty.http.HttpHeader
 import org.eclipse.jetty.http.HttpHeader.CONTENT_LENGTH
 import org.eclipse.jetty.util.Callback
@@ -17,11 +25,17 @@ import org.eclipse.jetty.util.Callback
 import java.io.*
 import java.net.URI
 import java.nio.ByteBuffer
-import java.nio.channels.{Channel, FileChannel}
-import java.nio.file.{Files, OpenOption, Path, StandardOpenOption}
-import java.util.concurrent.{CountDownLatch, TimeUnit}
+import java.nio.channels.Channel
+import java.nio.channels.FileChannel
+import java.nio.file.Files
+import java.nio.file.OpenOption
+import java.nio.file.Path
+import java.nio.file.StandardOpenOption
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import java.util.function.LongConsumer
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
+import scala.concurrent.Promise
 import scala.language.postfixOps
 
 /**
@@ -185,7 +199,7 @@ class DownloadMojo extends AbstractMojo:
         certAlias = Option apply certAlias map (_.trim) filter (_.nonEmpty)
       ))
     catch
-      case e: Exception => throw MojoFailureException(e)
+      case e: Exception => throw MojoExecutionException(e)
 
 object DownloadMojo:
   private def basicAuthenticationFor(uri: URI, realm: String, username: String, password: String) =
