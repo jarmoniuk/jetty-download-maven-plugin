@@ -1,6 +1,7 @@
-package nl.jarmoniuk.download
+package nl.jarmoniuk.download.service
 
-import nl.jarmoniuk.download.DownloadServiceTestBase.helloWorldHandler
+import nl.jarmoniuk.download.DownloadServiceTestBase
+import nl.jarmoniuk.download.service.DownloadServiceTestBase.helloWorldHandler
 import nl.jarmoniuk.download.service.{AuthOptions, DownloadOptions, DownloadService}
 import nl.jarmoniuk.download.util.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}

@@ -1,5 +1,6 @@
-package nl.jarmoniuk.download
+package nl.jarmoniuk.download.service
 
+import nl.jarmoniuk.download.DownloadServiceTestBase
 import nl.jarmoniuk.download.authentication.BasicAuthProxyAuthenticator
 import nl.jarmoniuk.download.util.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}
@@ -20,7 +21,7 @@ object DownloadServiceTestBase:
   lazy val helloWorldHandler = SimpleTextHandler("Hello, world!")
 
 abstract class DownloadServiceTestBase extends AnyFlatSpec with BeforeAndAfterEach:
-  import DownloadServiceTestBase._
+  import DownloadServiceTestBase.*
 
   private lazy val _log = new SystemStreamLog
   protected given Log = _log

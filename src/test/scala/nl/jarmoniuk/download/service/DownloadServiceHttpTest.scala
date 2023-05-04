@@ -1,7 +1,8 @@
-package nl.jarmoniuk.download
+package nl.jarmoniuk.download.service
 
-import nl.jarmoniuk.download.DownloadServiceTestBase.helloWorldHandler
+import nl.jarmoniuk.download.DownloadServiceTestBase
 import nl.jarmoniuk.download.authentication.BasicAuthProxyAuthenticator
+import nl.jarmoniuk.download.service.DownloadServiceTestBase.helloWorldHandler
 import nl.jarmoniuk.download.service.{AuthOptions, DownloadOptions, DownloadService, ProxyOptions}
 import nl.jarmoniuk.download.util.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}
@@ -28,8 +29,8 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Path, Paths}
 import java.util
 import java.util.Base64
-import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import javax.servlet.*
+import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import scala.io.Source
 import scala.util.Using
 import scala.util.Using.Releasable
