@@ -1,10 +1,11 @@
 val jettyVersion = "9.4.51.v20230217"
 val mavenVersion = "3.3.9"
 
+version := "1.1.0-SNAPSHOT"
+
 ThisBuild / name := "Jetty Download Maven Plugin"
 ThisBuild / organization := "nl.jarmoniuk"
 ThisBuild / organizationName := "Andrzej Jarmoniuk"
-ThisBuild / version := "1.0.0"
 ThisBuild / versionScheme := Option apply "semver-spec"
 ThisBuild / description := "Simple plugin for downloading resources based on Eclipse Jetty"
 ThisBuild / scalaVersion := "3.2.2"
