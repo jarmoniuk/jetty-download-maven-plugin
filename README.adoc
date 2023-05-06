@@ -10,9 +10,9 @@ image:https://github.com/ajarmoniuk/jetty-download-maven-plugin/actions/workflow
 
 == _What_ and _why_
 
-In contradiction to other avaialable Maven plugins for downloading resources, this one uses https://www.eclipse.org/jetty/[Eclipse Jetty] version @jettyVersion@, and tries to do only one thing.
+In contradiction to other available Maven plugins for downloading resources, this one uses https://www.eclipse.org/jetty/[Eclipse Jetty] version @jettyVersion@, and tries to do only one thing.
 
-A big part of the _why_ is -- because it's _fun!_ That's also why this plugin, whilst working with Java 8 and Maven, is written using Scala 3 (Dotty). Despite the ludic component to it, the main goal is to offer solid functionality with the Unix philosophy of doing just one thing -- but doing it well.
+The plugin is written using Scala 3 (Dotty).
 
 == Similar plugins
 
@@ -37,7 +37,7 @@ The plugin only offers one goal, `download`, which should download the given res
   <plugin>
     <groupId>nl.jarmoniuk</groupId>
     <artifactId>jetty-download-maven-plugin</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <executions>
       <execution>
         <id>download-file</id>

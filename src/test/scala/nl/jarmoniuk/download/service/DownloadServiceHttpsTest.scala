@@ -2,7 +2,7 @@ package nl.jarmoniuk.download.service
 
 import nl.jarmoniuk.download.service.DownloadServiceTestBase.helloWorldHandler
 import nl.jarmoniuk.download.service.{DownloadServiceTestBase, AuthOptions, DownloadOptions, DownloadService}
-import nl.jarmoniuk.download.util.SimpleTextHandler
+import nl.jarmoniuk.download.test.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}
 import org.eclipse.jetty.client.HttpProxy
 import org.eclipse.jetty.client.api.Authentication.ANY_REALM
@@ -25,29 +25,9 @@ import java.nio.file.{Files, Path}
 import scala.io.Source
 import scala.util.Using
 import scala.util.Using.{Releasable, resource}
+import nl.jarmoniuk.download.test.*
 
 class DownloadServiceHttpsTest extends DownloadServiceTestBase with Matchers:
-
-  private class HttpsServer(val handler: Server => Handler) extends Server with Releasable[HttpsServer]:
-    override def release(resource: HttpsServer = this): Unit = resource.stop()
-    private[this] def init(): Unit =
-      val sslContextFactory = SslContextFactory.Server()
-      sslContextFactory.setKeyStorePath(getClass.getResource("/keystore-testhost.jks").getPath)
-      sslContextFactory.setKeyStorePassword("password")
-
-      val src = new SecureRequestCustomizer
-      src.setSniHostCheck(false)
-
-      val httpsConfig = new HttpConfiguration
-      httpsConfig.addCustomizer(src)
-
-      val serverConnector = ServerConnector(this, sslContextFactory, new HttpConnectionFactory(httpsConfig))
-      addConnector(serverConnector)
-      setHandler(handler(this))
-    init()
-
-  private object HttpsServer:
-    given Releasable[HttpsServer] = _.stop()
 
   "a client" should "download a \"Hello, world!\" message" in {
     Using.Manager { use =>

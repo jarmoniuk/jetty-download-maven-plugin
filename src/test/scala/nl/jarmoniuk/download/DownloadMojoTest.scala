@@ -1,26 +1,42 @@
 package nl.jarmoniuk.download
 
+import nl.jarmoniuk.download.test.*
+import org.apache.maven.plugin.{MojoExecutionException, MojoFailureException}
+import org.eclipse.jetty.http.HttpStatus
+import org.eclipse.jetty.server.*
+import org.eclipse.jetty.server.handler.AbstractHandler
 import org.scalatest.*
-import flatspec.*
-import matchers.*
+import org.scalatest.flatspec.*
+import org.scalatest.matchers.*
+import matchers.should.Matchers.*
 
-import java.net.URI
 import java.io.File
-import org.apache.maven.plugin.MojoExecutionException
+import java.net.URI
+import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
+import scala.util.Using
 
 object TestUtils {
   import java.lang.reflect.Field
 
-  private def getFieldByNameIncludingSuperclasses(fieldName: String, clazz: Class[_]): Field = {
+  private def getFieldByNameIncludingSuperclasses(
+      fieldName: String,
+      clazz: Class[_]
+  ): Field = {
     var retValue: Field = null
     try retValue = clazz.getDeclaredField(fieldName)
     catch
       case _: NoSuchFieldException =>
-        Option apply clazz.getSuperclass map (c => retValue = getFieldByNameIncludingSuperclasses(fieldName, c))
+        Option apply clazz.getSuperclass map (c =>
+          retValue = getFieldByNameIncludingSuperclasses(fieldName, c)
+        )
     retValue
   }
 
-  def setVariableValueToObject(o: AnyRef, variable: String, value: AnyRef): Unit = {
+  def setVariableValueToObject(
+      o: AnyRef,
+      variable: String,
+      value: AnyRef
+  ): Unit = {
     val field = getFieldByNameIncludingSuperclasses(variable, o.getClass)
     field.setAccessible(true)
     field.set(o, value)
@@ -30,12 +46,34 @@ object TestUtils {
 class DownloadMojoTest extends AnyFlatSpec {
   import nl.jarmoniuk.download.TestUtils.setVariableValueToObject
 
-  "The plugin" should "raise a MavenExecutionException if the uri can't be downloaded" in {
+  "Plugin" should "raise a MojoFailureException if the server can't be found" in {
     val mojo: DownloadMojo = DownloadMojo()
-    setVariableValueToObject(mojo, "uri", URI create "bogus-uri")
+    setVariableValueToObject(mojo, "uri", URI create "http://bogus-uri")
     setVariableValueToObject(mojo, "outputFile", File("test"))
-    assertThrows[MojoExecutionException] {
-      mojo.execute()
+    a [MojoFailureException] should be thrownBy mojo.execute()
+  }
+
+  it should "raise a MojoFailureException if the resource can't be found on the server" in {
+    val server = PlainHttpServer { _ =>
+      new AbstractHandler:
+        override def handle(
+            target: String,
+            baseRequest: Request,
+            request: HttpServletRequest,
+            response: HttpServletResponse
+        ): Unit =
+          response setStatus HttpStatus.NOT_FOUND_404
+          baseRequest setHandled true
     }
+    server.start()
+
+    val mojo: DownloadMojo = DownloadMojo()
+    setVariableValueToObject(mojo, "uri", server.getURI)
+    setVariableValueToObject(mojo, "outputFile", File("test"))
+    
+    try
+      a [MojoFailureException] should be thrownBy mojo.execute()
+    finally
+      server.stop()
   }
 }

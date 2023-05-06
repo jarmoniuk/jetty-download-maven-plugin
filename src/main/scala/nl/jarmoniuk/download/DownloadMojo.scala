@@ -34,9 +34,7 @@ import java.nio.file.StandardOpenOption
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.function.LongConsumer
-import scala.concurrent.Future
-import scala.concurrent.Promise
-import scala.language.postfixOps
+import nl.jarmoniuk.download.service.DownloadServiceException
 
 /**
  * Downloads the requested resource.
@@ -170,6 +168,7 @@ class DownloadMojo extends AbstractMojo:
 
   given log: Log = getLog
 
+  @throws[MojoExecutionException | MojoFailureException]
   override def execute(): Unit =
     try
       DownloadService.download(uri, outputFile.toPath, Option apply DownloadOptions(
@@ -199,7 +198,10 @@ class DownloadMojo extends AbstractMojo:
         certAlias = Option apply certAlias map (_.trim) filter (_.nonEmpty)
       ))
     catch
-      case e: Exception => throw MojoExecutionException(e)
+      case e: Exception =>
+        if log.isDebugEnabled then
+          log debug ("Caught exception %s" format e.toString)
+        throw new MojoFailureException(e)
 
 object DownloadMojo:
   private def basicAuthenticationFor(uri: URI, realm: String, username: String, password: String) =
