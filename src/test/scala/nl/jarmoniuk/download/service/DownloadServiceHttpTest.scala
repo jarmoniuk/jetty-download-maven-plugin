@@ -3,7 +3,7 @@ package nl.jarmoniuk.download.service
 import nl.jarmoniuk.download.authentication.BasicAuthProxyAuthenticator
 import nl.jarmoniuk.download.service.DownloadServiceTestBase.helloWorldHandler
 import nl.jarmoniuk.download.service.{DownloadServiceTestBase, AuthOptions, DownloadOptions, DownloadService, ProxyOptions}
-import nl.jarmoniuk.download.util.SimpleTextHandler
+import nl.jarmoniuk.download.test.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}
 import org.eclipse.jetty.client.api.Authentication
 import org.eclipse.jetty.client.api.Authentication.ANY_REALM
@@ -14,7 +14,6 @@ import org.eclipse.jetty.http.{HttpHeader, HttpStatus}
 import org.eclipse.jetty.proxy.{ConnectHandler, ProxyServlet}
 import org.eclipse.jetty.security.*
 import org.eclipse.jetty.security.authentication.{BasicAuthenticator, LoginAuthenticator}
-import org.eclipse.jetty.server.*
 import org.eclipse.jetty.server.handler.{AbstractHandler, ContextHandler, ErrorHandler, HandlerWrapper}
 import org.eclipse.jetty.servlet.{FilterHolder, ServletContextHandler, ServletHolder}
 import org.eclipse.jetty.util.security.{Constraint, Password}
@@ -33,18 +32,10 @@ import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import scala.io.Source
 import scala.util.Using
 import scala.util.Using.Releasable
+import nl.jarmoniuk.download.test.*
+import org.eclipse.jetty.server.Request
 
 class DownloadServiceHttpTest extends DownloadServiceTestBase with Matchers:
-
-  private class PlainHttpServer(val handler: Server => Handler) extends Server:
-    private lazy val serverConnector = ServerConnector(this, 1, 1)
-    private[this] def init(): Unit =
-      addConnector(serverConnector)
-      setHandler(handler(this))
-    init()
-
-  private object PlainHttpServer:
-    given Releasable[PlainHttpServer] = _.stop()
 
   "a client" should "download a \"Hello, world!\" message" in {
     Using.Manager { use =>

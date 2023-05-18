@@ -11,6 +11,11 @@ hs_err_pid*
 **/.bsp/*
 **/.metals/*
 **/.vscode/*
+*.code-workspace
+.idea
+.metals
+.vscode
+.bsp
 **/target/
 **/lib/*.jar
 it/~/.m2/**

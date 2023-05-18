@@ -1,4 +1,4 @@
-package nl.jarmoniuk.download.util
+package nl.jarmoniuk.download.test
 
 import org.eclipse.jetty.http.{HttpHeader, HttpStatus}
 import org.eclipse.jetty.server.Request

@@ -1,7 +1,7 @@
 package nl.jarmoniuk.download.service
 
 import nl.jarmoniuk.download.authentication.BasicAuthProxyAuthenticator
-import nl.jarmoniuk.download.util.SimpleTextHandler
+import nl.jarmoniuk.download.test.SimpleTextHandler
 import org.apache.maven.plugin.logging.{Log, SystemStreamLog}
 import org.eclipse.jetty.proxy.ProxyServlet
 import org.eclipse.jetty.security.*
@@ -15,6 +15,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import java.nio.file.{Files, Path}
 import scala.util.Using.Releasable
+import nl.jarmoniuk.download.test.*
 
 object DownloadServiceTestBase:
   lazy val helloWorldHandler = SimpleTextHandler("Hello, world!")
@@ -25,26 +26,6 @@ abstract class DownloadServiceTestBase extends AnyFlatSpec with BeforeAndAfterEa
   private lazy val _log = new SystemStreamLog
   protected given Log = _log
   protected given LoginAuthenticator = new BasicAuthenticator
-
-  class TempFile(val prefix: String = "download"):
-    private lazy val _path = Files.createTempFile(prefix + "-", ".tmp")
-    def path: Path = _path
-
-  object TempFile:
-    given Releasable[TempFile] = f => Files.deleteIfExists(f._path)
-
-  class PlainHttpProxy extends Server:
-    private lazy val _connector = ServerConnector(this, 1, 1)
-    private lazy val _context = ServletContextHandler(this, "/", ServletContextHandler.SESSIONS)
-    def connector: ServerConnector = _connector
-    def context: ServletContextHandler = _context
-    private[this] def init(): Unit =
-      addConnector(_connector)
-      _context.addServlet(ServletHolder(classOf[ProxyServlet]), "/*")
-    init()
-
-  object PlainHttpProxy:
-    given Releasable[PlainHttpProxy] = _.stop()
 
   class HttpsProxy extends Server:
     private var _connector: ServerConnector = _
