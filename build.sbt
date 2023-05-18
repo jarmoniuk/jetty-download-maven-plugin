@@ -1,7 +1,7 @@
 val jettyVersion = "9.4.51.v20230217"
 val mavenVersion = "3.3.9"
 
-version := "1.0.1"
+version := "1.1.0-SNAPSHOT"
 
 ThisBuild / name := "Jetty Download Maven Plugin"
 ThisBuild / organization := "nl.jarmoniuk"
