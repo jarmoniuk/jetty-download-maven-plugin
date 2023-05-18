@@ -19,6 +19,7 @@ ThisBuild / scmInfo := Option apply ScmInfo(
   "scm:git:https://github.com/ajarmoniuk/jetty-download-maven-plugin.git",
   "scm:git@github.com:ajarmoniuk/jetty-download-maven-plugin.git"
 )
+ThisBuild / publishM2Configuration.value.withOverwrite(true)
 ThisBuild / publishMavenStyle := true
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishArtifact := true
